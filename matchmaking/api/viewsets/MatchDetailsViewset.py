@@ -4,5 +4,5 @@ from api.serializers import MatchDetailsSerializer
 
 
 class MatchDetailsViewset(viewsets.ModelViewSet):
-    serializer_class = MatchDetailsSerializer
     queryset = MatchDetails.objects.all()
+    serializer_class = MatchDetailsSerializer
