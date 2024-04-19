@@ -17,18 +17,25 @@ class Match(models.Model):
         (True, 'Balanceado'),
         (False, 'Desbalanceado'),
     )
+    WINNER_CHOICES = (
+        (1, 'Equipo 1'),
+        (2, 'Equipo 2'),
+        (0, 'Empate'),
+    )
 
     id = models.AutoField(primary_key=True)
     date = models.DateTimeField()
-    number_of_players = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(30)])
-    team_size = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(15)])
+    number_of_players = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(30)], blank=True)
+    team_one_size = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(15)])
+    team_two_size = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(15)])
     field_size = models.IntegerField(validators=[MinValueValidator(4), MaxValueValidator(15)])
-    result = models.CharField(max_length=15, null=True, choices=RESULT_CHOICES, blank=True)
+    # result = models.CharField(max_length=15, null=True, choices=RESULT_CHOICES, blank=True)
     team_one_goals = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(30)])
     team_two_goals = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(30)])
     goal_difference = models.IntegerField(null=True, validators=[MinValueValidator(-30), MaxValueValidator(30)])
     match_rating = models.FloatField(null=True, validators=[MinValueValidator(0), MaxValueValidator(5)])
     balanced = models.BooleanField(null=True, choices=BALANCED_CHOICES, blank=True)
+    winner = models.IntegerField(null=True, choices=WINNER_CHOICES, blank=True)
 
 class MatchDetails(models.Model):
     TEAM_CHOICES = (
