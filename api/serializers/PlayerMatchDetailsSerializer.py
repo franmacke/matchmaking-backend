@@ -8,6 +8,16 @@ class PlayerMatchDetailsSerializer(serializers.ModelSerializer):
         model = PlayerMatchDetails
         fields = '__all__'
 
+    def is_user_in_match(self, player, match):
+        return PlayerMatchDetails.objects.filter(
+            player_id=player, 
+            match_id=match
+        ).exists()
+
+    def create(self, validated_data):
+        if self.is_user_in_match(validated_data['player'], validated_data['match']):
+            raise serializers.ValidationError({"message": "Player already exists in this match"})
+        return super().create(validated_data)
 
 class PlayerMatchDetailsGetSerializer(serializers.ModelSerializer):
     player = PlayerSerializer()
