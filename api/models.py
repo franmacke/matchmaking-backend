@@ -7,6 +7,9 @@ class Player(models.Model):
     name = models.CharField(max_length=100)
     skill = models.FloatField(null=True)
 
+    def __str__(self):
+        return self.name
+
 class Match(models.Model):
     RESULT_CHOICES = (
         (1, 'Vitoria'),
@@ -36,7 +39,26 @@ class Match(models.Model):
     balanced = models.BooleanField(null=True, choices=BALANCED_CHOICES, blank=True)
     winner = models.IntegerField(null=True, choices=WINNER_CHOICES, blank=True)
 
-class MatchDetails(models.Model):
+    def __str__(self):
+        return f'{self.date.strftime("%d/%m/%Y %H:%M")} [{self.team_one_size}vs{self.team_two_size}] -> {self.team_one_goals} - {self.team_two_goals}'
+
+
+class Positions(models.Model):
+    POSITION_CHOICES = (
+        (1, 'Portero'),
+        (2, 'Defensa'),
+        (3, 'Medio'),
+        (4, 'Delantero'),
+    )
+
+    id = models.AutoField(primary_key=True)
+    position = models.IntegerField(null=True, choices=POSITION_CHOICES, blank=True)
+
+    def __str__(self):
+        return f'{self.POSITION_CHOICES[self.position - 1][1]}'
+
+
+class PlayerMatchDetails(models.Model):
     TEAM_CHOICES = (
         (1, 'Equipo 1'),
         (2, 'Equipo 2'),
@@ -48,5 +70,6 @@ class MatchDetails(models.Model):
     goals = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(30)])
     assists = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(30)])
     individual_rating = models.FloatField(null=True, validators=[MinValueValidator(0), MaxValueValidator(5)])
+    positions = models.ManyToManyField(Positions)
 
     

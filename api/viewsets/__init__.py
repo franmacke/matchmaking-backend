@@ -1,3 +1,3 @@
-from .MatchDetailsViewset import MatchDetailsViewset
+from .PlayerMatchDetailsViewset import PlayerMatchDetailsViewset
 from .MatchViewset import MatchViewset
 from .PlayerViewset import PlayerViewset

@@ -1,3 +1,3 @@
-from .MatchDetailsSerializer import MatchDetailsSerializer
+from .PlayerMatchDetailsSerializer import PlayerMatchDetailsSerializer
 from .MatchSerializer import MatchSerializer
 from .PlayerSerializer import PlayerSerializer

@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from api.models import Match, MatchDetails
-from api.serializers import MatchSerializer, MatchDetailsSerializer
+from api.models import Match, PlayerMatchDetails
+from api.serializers import MatchSerializer, PlayerMatchDetailsSerializer
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -13,8 +13,8 @@ class MatchViewset(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance)
         data = serializer.data
 
-        details = MatchDetails.objects.filter(match_id=instance.id)
+        details = PlayerMatchDetails.objects.filter(match_id=instance.id)
 
-        details_serializer = MatchDetailsSerializer(details, many=True)
+        details_serializer = PlayerMatchDetailsSerializer(details, many=True)
 
         return Response({"match": data, "details": details_serializer.data}, status=status.HTTP_200_OK)
