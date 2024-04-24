@@ -3,8 +3,14 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Player(models.Model):
+    GENDER_CHOICES = (
+        (1, 'Masculino'),
+        (2, 'Femenino'),
+    )
+
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
+    gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
     skill = models.FloatField(null=True)
 
     def __str__(self):
@@ -65,10 +71,34 @@ class PlayerMatchDetails(models.Model):
 
     match = models.ForeignKey(Match, on_delete=models.PROTECT)
     player = models.ForeignKey(Player, on_delete=models.PROTECT)
+
     team = models.IntegerField(null=True, choices=TEAM_CHOICES, blank=True)
+
+    # OFFENSE STATS
     goals = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(30)])
     assists = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(30)])
-    individual_rating = models.FloatField(null=True, validators=[MinValueValidator(0), MaxValueValidator(5)])
+    shots_on_target = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(30)])
+    total_shots = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(30)])
+
+    # MIDFIELD STATS
+    total_passes = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(1000)])
+    successful_passes = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(1000)])
+
+    # DEFENSE STATS
+    interceptions = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(30)])
+    tackles = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(30)])
+
+    # GOALKEEPER STATS
+    saves = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(30)])
+    goals_conceded = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(30)])
+
+    # PHYSICAL STATS
+    distance_index = models.FloatField(null=True)
+    speed_index = models.FloatField(null=True)
+    endurance_index = models.FloatField(null=True)
+
+    # OVERALL STATS
     positions = models.ManyToManyField(Positions)
+    individual_rating = models.FloatField(null=True, validators=[MinValueValidator(0), MaxValueValidator(5)])
 
     
