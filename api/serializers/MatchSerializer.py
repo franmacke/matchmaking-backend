@@ -17,7 +17,10 @@ class MatchSerializer(serializers.ModelSerializer):
         return 0
     
     def calculate_goal_difference(self, team_one_goals, team_two_goals):
-        return None if not team_one_goals or not team_two_goals else team_one_goals - team_two_goals
+        if not team_one_goals or not team_two_goals:
+            return None
+        return team_one_goals - team_two_goals
+        # return None if not team_one_goals or not team_two_goals else team_one_goals - team_two_goals
 
 
     def calculate_number_of_players(self, team_one_size, team_two_size):
@@ -56,11 +59,15 @@ class MatchSerializer(serializers.ModelSerializer):
         instance.team_two_size = validated_data.get('team_two_size', instance.team_two_size)
         instance.team_one_goals = validated_data.get('team_one_goals', instance.team_one_goals)
         instance.team_two_goals = validated_data.get('team_two_goals', instance.team_two_goals)
-        instance.goal_difference = self.calculate_goal_difference(instance.team_one_goals, instance.team_two_goals)
+        instance.goal_difference = self.calculate_goal_difference(
+            validated_data.get('team_one_goals', instance.team_one_goals),
+            validated_data.get('team_two_goals', instance.team_two_goals)
+        )
         instance.match_rating = validated_data.get('match_rating', instance.match_rating)
         instance.balanced = validated_data.get('balanced', instance.balanced)
         instance.winner = self.define_winner(instance.team_one_goals, instance.team_two_goals)
 
         instance.save()
+
         return instance
 
