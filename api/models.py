@@ -28,10 +28,9 @@ class Match(models.Model):
 
     id = models.AutoField(primary_key=True)
     date = models.DateTimeField()
-    number_of_players = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(30)], blank=True)
-    team_one_size = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(15)])
-    team_two_size = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(15)])
     field_size = models.IntegerField(validators=[MinValueValidator(4), MaxValueValidator(15)])
+    team_one_size = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(15)], blank=True, null=True)
+    team_two_size = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(15)], blank=True, null=True)
     team_one_goals = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(30)])
     team_two_goals = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(30)])
     goal_difference = models.IntegerField(null=True, validators=[MinValueValidator(-30), MaxValueValidator(30)])
