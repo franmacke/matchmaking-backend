@@ -93,9 +93,9 @@ class PlayerMatchDetails(models.Model):
     goals_conceded = models.IntegerField(null=True, validators=[MinValueValidator(0), MaxValueValidator(30)])
 
     # PHYSICAL STATS
-    distance_index = models.FloatField(null=True)
-    speed_index = models.FloatField(null=True)
-    endurance_index = models.FloatField(null=True)
+    distance_index = models.FloatField(null=True, validators=[MinValueValidator(0), MaxValueValidator(5)])
+    speed_index = models.FloatField(null=True, validators=[MinValueValidator(0), MaxValueValidator(5)])
+    endurance_index = models.FloatField(null=True, validators=[MinValueValidator(0), MaxValueValidator(5)])
 
     # OVERALL STATS
     positions = models.ManyToManyField(Positions)
